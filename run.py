@@ -61,8 +61,10 @@ os.system('python insert.py {}'.format(url))
 sleep(4)
 
 #_nuclei
-os.system(f"bash modules/nuclei -list /app/results/{url}-output.txt -t /app/nuc/ -o /app/results/{url}-nuclei.txt")
-os.system(f"bash echo /app/results/{url}-nuclei.txt | tee -a /app/results/{url}-output.txt")
+os.system(f"bash modules/nuclei -list /app/{url}-subs -t /app/nuc/ -o /app/results/{url}-nuclei.txt")
+os.system(f"bash echo 'NUCLEI' >> /app/results/${url}-output.txt")
+os.system(f'bash printf "\n\n" >> /app/results/${url}-output.txt')
+os.system(f"bash echo /app/results/{url}-nuclei.txt >> /app/results/{url}-output.txt")
 os.system('python insert.py {}'.format(url))
 
 sleep(4)
