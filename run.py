@@ -60,6 +60,12 @@ os.system('python insert.py {}'.format(url))
 
 sleep(4)
 
+#_nuclei
+os.system(f"bash modules/nuclei -list /app/results/{url}-output.txt -t /app/nuclei-templates/ -o /app/results/{url}-nuclei.txt")
+os.system('python insert.py {}'.format(url))
+
+sleep(4)
+
 #8_dirbrute
 os.system(f"bash modules/dirb.sh {url}")
 os.system('python insert.py {}'.format(url))
