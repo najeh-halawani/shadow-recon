@@ -843,6 +843,30 @@ def gau_urls(url):
   return send_file("/app/results/{}-gau.txt".format(url))
 
 
+@app.route("/nuclei/<url>")
+def nuclei(url):
+  url = url
+  DATABASE_URL = os.environ['DATABASE_URL']
+  conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+  cur = conn.cursor()
+
+  cur.execute(f"select nuclei from output where domain = '{url}'")
+  t = cur.fetchall()
+
+  res = t[0][0]
+  final = base64.standard_b64decode(res)
+  final = final.decode('utf-8')
+  os.system(f"touch /app/results/{url}-nuclei.txt")
+  f = open('/app/results/{}-nuclei.txt'.format(url), 'w')
+  f.write(final)
+  f.close()
+
+  conn.commit()
+  cur.close()
+  conn.close()
+  return send_file("/app/results/{}-nuclei.txt".format(url))
+
+
 #########################################################################
 
 if __name__ == "__main__":
