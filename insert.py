@@ -41,6 +41,10 @@ if url in doms:
     f = open('results/{}-gau.txt'.format(url), 'r')
     res2 = f.read()
     f.close()
+
+    f = open('results/{}-nuclei.txt'.format(url), 'r')
+    res3 = f.read()
+    f.close()
   
     res1 = bytes(res1, 'utf-8')
     final1 = base64.standard_b64encode(res1)
@@ -49,12 +53,19 @@ if url in doms:
     res2 = bytes(res2, 'utf-8')
     final2 = base64.standard_b64encode(res2)
     final2 = final2.decode('utf-8')
+
+    res3 = bytes(res3, 'utf-8')
+    final3 = base64.standard_b64encode(res3)
+    final3 = final3.decode('utf-8')
   
   
     cur.execute(f"update output set result = '{final1}' where domain = '{url}';")
     conn.commit()
     cur.execute(f"update output set gau = '{final2}' where domain = '{url}';")
     conn.commit()
+    cur.execute(f"update output set nuclei = '{final2}' where domain = '{url}';")
+    conn.commit()
+
   except:
     f = open('results/{}-output.txt'.format(url), 'r')
     res1 = f.read()
@@ -68,6 +79,8 @@ if url in doms:
     conn.commit()
     cur.execute(f"update output set gau = 'The Gathered URLs not run yet !' where domain = '{url}';")
     conn.commit()
+    cur.execute(f"update output set nuclei = 'Nuclei did not run yet !' where domain = '{url}';")
+    conn.commit()
 
 else:
   try:
@@ -79,6 +92,10 @@ else:
     f = open('results/{}-gau.txt'.format(url), 'r')
     res2 = f.read()
     f.close()
+    
+    f = open('results/{}-nuclei.txt'.format(url), 'r')
+    res3 = f.read()
+    f.close()
   
     res1 = bytes(res1, 'utf-8')
     final1 = base64.standard_b64encode(res1)
@@ -87,8 +104,12 @@ else:
     res2 = bytes(res2, 'utf-8')
     final2 = base64.standard_b64encode(res2)
     final2 = final2.decode('utf-8')
+
+    res3 = bytes(res3, 'utf-8')
+    final3 = base64.standard_b64encode(res3)
+    final3 = final3.decode('utf-8')
   
-    cur.execute(f"insert into output values ('{url}', '{final1}', '{final2}');")
+    cur.execute(f"insert into output values ('{url}', '{final1}', '{final2}', '{final3}');")
     conn.commit()
   except:
     #read from output.txt and dump in database
@@ -100,7 +121,7 @@ else:
     final1 = base64.standard_b64encode(res1)
     final1 = final1.decode('utf-8')
     
-    cur.execute(f"insert into output values ('{url}', '{final1}', 'The Gathered URLs not run yet !');")
+    cur.execute(f"insert into output values ('{url}', '{final1}', 'The Gathered URLs not run yet !', 'Nuclei didn't started yet!');")
     conn.commit()
 
 conn.commit()

@@ -34,5 +34,17 @@ f = open('/app/results/{}-gau.txt'.format(url), 'w')
 f.write(final)
 f.close()
 
+
+cur.execute(f"select nuclei from output where domain = '{url}'")
+t = cur.fetchall()
+
+res = t[0][0]
+final = base64.standard_b64decode(res)
+final = final.decode('utf-8')
+f = open('/app/results/{}-nuclei.txt'.format(url), 'w')
+f.write(final)
+f.close()
+
+
 cur.close()
 conn.close()

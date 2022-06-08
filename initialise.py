@@ -24,7 +24,8 @@ create table output (
 
 domain varchar(30),
 result varchar(10485760),
-gau varchar(10485760)
+gau varchar(10485760),
+nuclei varchar(10485760)
 );
 
 ''')
